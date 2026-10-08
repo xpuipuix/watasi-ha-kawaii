@@ -3,315 +3,374 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>立花くん 監獄なう 〜BAN収監中〜</title>
+  <title>BAN監獄 〜ハロウィン収監中〜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Shippori+Mincho:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --ink: #0c0610;
+      --night: #170b1c;
+      --velvet: #241028;
+      --plum: #3d1745;
+      --wine: #6e0f2d;
+      --blood: #b3143f;
+      --pumpkin: #ff8a1f;
+      --candle: #ffd27a;
+      --lace: #f1e3ee;
+      --lilac: #c9a3e0;
+      --text: #efe4f2;
+      --muted: #b39bbd;
+      --line: rgba(201,163,224,0.35);
+      --mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      --deco: 'Cinzel Decorative', 'Shippori Mincho', serif;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
-      background: linear-gradient(135deg, #3a3a3a 0%, #4a4a4a 50%, #2e2e2e 100%);
-      background-attachment: fixed;
-      color: #453a52;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(255,138,31,0.18), transparent 55%),
+        linear-gradient(rgba(12,6,16,0.80), rgba(23,11,28,0.92)),
+        url('halloween-night.jpg') center / cover fixed,
+        var(--ink);
+      color: var(--text);
       min-height: 100vh;
     }
 
-    /* ヘッダー */
+    /* ===== ヘッダー ===== */
     .header {
-      background: repeating-linear-gradient(90deg, #1a1a1a 0px, #1a1a1a 24px, #e8b400 24px, #e8b400 30px);
-      border-bottom: 3px solid #faf5ff;
-      padding: 16px 20px;
+      position: relative;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(179,20,63,0.18) 22px 24px),
+        linear-gradient(180deg, #000 0%, var(--velvet) 100%);
+      padding: 14px 20px 18px;
       text-align: center;
+      overflow: hidden;
+    }
+    .header::after { /* レースのフチ */
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: 0; height: 9px;
+      background:
+        radial-gradient(circle at 7px 0, var(--lace) 4px, transparent 4.5px) 0 0 / 14px 9px repeat-x,
+        linear-gradient(var(--lace), var(--lace)) 0 0 / 100% 2px no-repeat;
+      opacity: 0.85;
     }
     .header h1 {
-      font-size: 20px;
-      color: #fff;
-      font-weight: bold;
-      text-shadow: 0 1px 3px rgba(40,120,80,0.3);
+      font-family: var(--mincho);
+      font-size: 22px; font-weight: 800; letter-spacing: 0.08em;
+      color: var(--lace);
+      text-shadow: 0 0 8px rgba(255,138,31,0.7), 0 0 22px rgba(179,20,63,0.6);
     }
+    .header h1 .deco { font-family: var(--deco); color: var(--pumpkin); }
     .header .subtitle {
-      font-size: 13px;
-      color: #faf5ff;
-      margin-top: 4px;
+      font-family: var(--mincho);
+      font-size: 13px; color: var(--lilac); margin-top: 4px; letter-spacing: 0.15em;
+    }
+    .bat {
+      position: absolute; font-size: 18px; opacity: 0.75; pointer-events: none;
+      animation: flap 9s linear infinite;
+      filter: drop-shadow(0 0 4px rgba(179,20,63,0.8));
+    }
+    .bat:nth-child(1) { top: 8px;  animation-duration: 11s; }
+    .bat:nth-child(2) { top: 30px; animation-duration: 14s; animation-delay: -5s; font-size: 13px; }
+    .bat:nth-child(3) { top: 16px; animation-duration: 9s;  animation-delay: -2s; font-size: 15px; }
+    @keyframes flap {
+      0%   { left: -40px; transform: translateY(0) scaleX(1); }
+      25%  { transform: translateY(-6px) scaleX(0.7); }
+      50%  { transform: translateY(4px) scaleX(1); }
+      75%  { transform: translateY(-4px) scaleX(0.7); }
+      100% { left: calc(100% + 40px); transform: translateY(0) scaleX(1); }
     }
 
-    .main { display: flex; height: calc(100vh - 64px); }
+    .main { display: flex; height: calc(100vh - 72px); }
 
-    /* 左：BANカード */
+    /* ===== パネル共通 ===== */
+    .panel-glass {
+      background: rgba(23,11,28,0.72);
+      backdrop-filter: blur(6px);
+    }
+    .panel-title {
+      font-family: var(--mincho);
+      background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(61,23,69,0.6));
+      padding: 12px 16px; border-bottom: 1px solid var(--line);
+      font-size: 14px; font-weight: 700; color: var(--lace); letter-spacing: 0.08em;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* ===== 左：囚人カード ===== */
     .left-panel {
-      width: 340px;
-      min-width: 300px;
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(8px);
-      border-right: 1px solid rgba(255,255,255,0.6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 16px;
-      overflow-y: auto;
+      width: 350px; min-width: 300px;
+      border-right: 1px solid var(--line);
+      padding: 18px 14px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 18px;
+      position: relative;
     }
+    .left-panel::-webkit-scrollbar { width: 4px; }
+    .left-panel::-webkit-scrollbar-thumb { background: var(--plum); border-radius: 2px; }
+
+    .card {
+      position: relative;
+      border: 1px solid var(--line);
+      outline: 1px solid rgba(179,20,63,0.45); outline-offset: 3px;
+      border-radius: 14px;
+      padding: 18px 14px 16px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(110,15,45,0.45), transparent 70%),
+        rgba(12,6,16,0.6);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .card::before { /* ちいさなリボン */
+      content: '🎀';
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      font-size: 22px; filter: hue-rotate(-20deg) saturate(1.3);
+    }
+    .web { position: absolute; width: 54px; height: 54px; opacity: 0.35; pointer-events: none; }
+    .web.tl { top: 0; left: 0; }
+    .web.tr { top: 0; right: 0; transform: scaleX(-1); }
 
     .ban-badge {
-      background: #ff4d4d;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      padding: 4px 14px;
-      border-radius: 20px;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-      animation: pulse 2s ease-in-out infinite;
+      font-family: var(--mincho);
+      background: linear-gradient(135deg, var(--blood), var(--wine));
+      border: 1px solid rgba(255,210,122,0.4);
+      color: var(--lace);
+      font-size: 12px; font-weight: 700;
+      padding: 4px 14px; border-radius: 20px;
+      letter-spacing: 0.06em; margin-bottom: 14px;
+      animation: pulse 2.4s ease-in-out infinite;
+      box-shadow: 0 0 12px rgba(179,20,63,0.55);
     }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .ban-badge.free { background: linear-gradient(135deg, #3f7d4a, #285a33); box-shadow: 0 0 12px rgba(80,180,100,0.4); animation: none; }
+    .ban-badge.soon { background: linear-gradient(135deg, #5b4a66, #3d1745); animation: none; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-    @keyframes sparkle { 0%,100%{transform:scale(1) rotate(0deg)} 50%{transform:scale(1.3) rotate(180deg)} }
+    @keyframes flicker { 0%,100%{opacity:1} 45%{opacity:0.85} 50%{opacity:0.6} 55%{opacity:0.9} }
 
-    .avatar-wrap { animation: float 3s ease-in-out infinite; margin-bottom: 10px; }
+    .avatar-wrap { position: relative; animation: float 3s ease-in-out infinite; margin-bottom: 10px; }
     .avatar-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: rgba(214, 245, 214, 0.7);
-      border: 3px solid #a67ee6;
+      width: 104px; height: 104px; border-radius: 50%; object-fit: cover;
+      background: radial-gradient(circle, #3d1745, #0c0610);
+      border: 3px solid var(--blood);
+      box-shadow: 0 0 0 3px var(--ink), 0 0 0 5px var(--candle), 0 0 22px rgba(255,138,31,0.45);
+      display: block;
     }
-
-
-    .avatar-wrap { position: relative; }
-    .avatar-wrap::after {
+    .avatar-wrap::after { /* 鉄格子 */
       content: '';
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 100px; height: 100px; border-radius: 50%;
-      background: repeating-linear-gradient(90deg, transparent 0px, transparent 14px, rgba(60,60,60,0.85) 14px, rgba(60,60,60,0.85) 20px);
+      position: absolute; inset: 0; border-radius: 50%;
+      background: repeating-linear-gradient(90deg, transparent 0 15px, rgba(20,10,20,0.82) 15px 20px);
       pointer-events: none;
     }
-    .name { font-size: 18px; font-weight: bold; color: #7b3fc4; margin-bottom: 2px; }
-    .sub { font-size: 12px; color: #9b7ab0; margin-bottom: 14px; }
+    .name {
+      font-family: var(--mincho);
+      font-size: 20px; font-weight: 800; color: var(--lace); letter-spacing: 0.1em;
+      text-shadow: 0 0 10px rgba(201,163,224,0.6);
+      margin-bottom: 2px;
+    }
+    .sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
 
     .message-box {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1.5px solid #c9a3e0;
-      border-radius: 16px;
-      padding: 12px 16px;
-      width: 100%;
-      margin-bottom: 12px;
-      text-align: center;
+      width: 100%; margin-bottom: 12px; text-align: center;
+      padding: 12px 14px;
+      border: 1px dashed rgba(241,227,238,0.35);
+      border-radius: 12px;
+      background: rgba(61,23,69,0.35);
     }
-    .message-main { font-size: 16px; font-weight: bold; color: #7b3fc4; margin-bottom: 6px; line-height: 1.5; }
-    .message-sub { font-size: 13px; color: #9b7ab0; line-height: 1.6; }
+    .message-main { font-family: var(--mincho); font-size: 15px; font-weight: 700; color: var(--candle); margin-bottom: 6px; line-height: 1.5; }
+    .message-sub { font-size: 12px; color: var(--muted); line-height: 1.7; }
 
     .countdown-wrap { width: 100%; margin-bottom: 10px; }
-    .countdown-label { display: flex; justify-content: space-between; font-size: 11px; color: #9b7ab0; margin-bottom: 5px; }
-    .bar-outer { height: 7px; background: rgba(255,255,255,0.6); border-radius: 4px; overflow: hidden; }
-    .bar-inner { height: 100%; background: linear-gradient(90deg, #a67ee6, #7d4fd4); border-radius: 4px; transition: width 1s; }
-
-    .days-row { display: flex; gap: 4px; width: 100%; margin-bottom: 16px; }
-    .day-chip {
-      flex: 1; padding: 6px 2px; border-radius: 8px; font-size: 9px;
-      color: #9b7ab0; background: rgba(255,255,255,0.6); border: 1px solid #dcc5e8; text-align: center;
+    .countdown-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 5px; }
+    .bar-outer { height: 7px; background: rgba(0,0,0,0.6); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+    .bar-inner { height: 100%; background: linear-gradient(90deg, var(--pumpkin), var(--blood)); transition: width 1s; }
+    .timer {
+      font-family: var(--deco);
+      text-align: center; font-size: 19px; color: var(--pumpkin); margin-top: 10px;
+      font-variant-numeric: tabular-nums; letter-spacing: 0.04em;
+      text-shadow: 0 0 10px rgba(255,138,31,0.6);
+      animation: flicker 4s infinite;
     }
-    .day-chip.done { background: #e8dcf5; border-color: #a67ee6; color: #7b3fc4; }
-    .day-chip.today { background: #fff3e0; border-color: #ffb74d; color: #e65100; font-weight: bold; }
+
+    .days-row { display: flex; gap: 4px; width: 100%; margin-bottom: 14px; }
+    .day-chip { /* 棺桶チップ */
+      flex: 1; padding: 7px 1px 6px; font-size: 9px; text-align: center;
+      color: var(--muted); background: rgba(61,23,69,0.55);
+      clip-path: polygon(28% 0, 72% 0, 100% 22%, 82% 100%, 18% 100%, 0 22%);
+    }
+    .day-chip.done { background: rgba(110,15,45,0.85); color: var(--lace); }
+    .day-chip.today { background: linear-gradient(180deg, var(--pumpkin), #c2560a); color: #1b0b05; font-weight: bold; }
     .day-num { font-size: 13px; display: block; margin-bottom: 1px; }
 
     .twitch-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; padding: 12px; border-radius: 10px;
-      background: #9147ff; color: white; font-size: 14px; font-weight: bold;
-      cursor: pointer; border: none; text-decoration: none; transition: opacity 0.15s;
+      width: 100%; padding: 11px; border-radius: 10px;
+      background: linear-gradient(135deg, #6b2fc4, #3d1745);
+      border: 1px solid rgba(201,163,224,0.5);
+      color: var(--lace); font-size: 14px; font-weight: bold;
+      text-decoration: none; transition: filter 0.15s;
     }
-    .twitch-btn:hover { opacity: 0.85; }
-    .twitch-icon { width: 18px; height: 18px; fill: white; }
+    .twitch-btn:hover { filter: brightness(1.2); }
+    .twitch-icon { width: 18px; height: 18px; fill: currentColor; }
 
-    .sparkles { font-size: 16px; display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
-    .sp { animation: sparkle 2s ease-in-out infinite; display: inline-block; }
-    .sp:nth-child(2) { animation-delay: 0.3s; }
-    .sp:nth-child(3) { animation-delay: 0.6s; }
+    .friends { display: flex; gap: 10px; justify-content: center; align-items: flex-end; padding-bottom: 6px; }
+    .friends img { width: 64px; animation: float 3s ease-in-out infinite; }
+    .friends img:nth-child(2) { animation-delay: 0.4s; }
+    .friends img:nth-child(3) { animation-delay: 0.8s; }
+    .candles { text-align: center; font-size: 15px; letter-spacing: 10px; animation: flicker 3s infinite; }
 
-    /* 中央：Twitch配信 */
-    .center-panel { flex: 1; display: flex; flex-direction: column; background: rgba(255,255,255,0.3); min-width: 0; }
-    .stream-header {
-      background: rgba(255,255,255,0.55); backdrop-filter: blur(8px);
-      padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.6);
-      font-size: 14px; font-weight: bold; color: #7b3fc4; display: flex; align-items: center; gap: 8px;
+    /* ===== 中央：配信 ===== */
+    .center-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .stream-tabs { margin-left: auto; display: flex; gap: 6px; }
+    .stream-tab {
+      font-family: var(--mincho);
+      background: rgba(0,0,0,0.4); border: 1px solid var(--line); color: var(--muted);
+      font-size: 12px; padding: 4px 10px; border-radius: 14px; cursor: pointer;
     }
-    .stream-wrap { flex: 1; position: relative; background: #000; }
-    .stream-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .stream-tab.active { background: var(--wine); color: var(--lace); border-color: var(--blood); }
+    .stream-wrap { flex: 1; position: relative; background: #000; border-top: 2px solid var(--wine); }
+    .stream-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-    /* 右：チャット */
-    .right-panel {
-      width: 320px; min-width: 280px; display: flex; flex-direction: column;
-      background: rgba(255,255,255,0.45); backdrop-filter: blur(8px); border-left: 1px solid rgba(255,255,255,0.6);
-    }
-    .chat-header {
-      background: rgba(255,255,255,0.55); padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.6);
-      font-size: 14px; font-weight: bold; color: #7b3fc4; display: flex; align-items: center; gap: 8px;
-    }
-    .chat-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; animation: pulse 2s infinite; }
+    /* ===== 右：チャット ===== */
+    .right-panel { width: 330px; min-width: 280px; display: flex; flex-direction: column; border-left: 1px solid var(--line); }
+    .chat-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--pumpkin); box-shadow: 0 0 8px var(--pumpkin); animation: pulse 2s infinite; }
+    .vol { width: 64px; accent-color: var(--pumpkin); cursor: pointer; opacity: 0.45; }
+    .vol.on { opacity: 1; }
+    .icon-btn { background: none; border: none; cursor: pointer; font-size: 15px; opacity: 0.45; padding: 2px 6px; color: inherit; }
 
-    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
     .chat-messages::-webkit-scrollbar { width: 4px; }
-    .chat-messages::-webkit-scrollbar-track { background: transparent; }
-    .chat-messages::-webkit-scrollbar-thumb { background: #c8a8d0; border-radius: 2px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--plum); border-radius: 2px; }
 
     .msg { display: flex; gap: 10px; align-items: flex-start; animation: fadein 0.3s ease; }
     @keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
     .msg-avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: linear-gradient(135deg, #e8b400, #b88a00);
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--plum), var(--wine));
+      border: 1.5px solid var(--candle);
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; flex-shrink: 0; font-weight: bold; color: white;
+      font-size: 14px; font-weight: bold; color: var(--lace); overflow: hidden;
     }
+    .msg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .msg-content {
+      flex: 1; min-width: 0;
+      background: rgba(12,6,16,0.55);
+      border: 1px solid var(--line);
+      border-radius: 4px 12px 12px 12px;
+      padding: 7px 10px;
+    }
+    .msg.uta .msg-content { border-color: rgba(255,138,31,0.5); background: rgba(60,22,8,0.45); }
+    .msg.uta .msg-name { color: var(--pumpkin); }
     .msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
-    .msg-name { font-size: 13px; font-weight: bold; color: #7b3fc4; }
-    .del-btn { margin-left: auto; background: none; border: none; cursor: pointer; font-size: 13px; padding: 0 2px; opacity: 0.6; }
+    .msg-name { font-family: var(--mincho); font-size: 13px; font-weight: 700; color: var(--lilac); }
+    .msg-time { font-size: 10px; color: var(--muted); }
+    .del-btn { margin-left: auto; background: none; border: none; cursor: pointer; font-size: 13px; opacity: 0.6; }
     .del-btn:hover { opacity: 1; }
-    .msg-time { font-size: 10px; color: #a89ab0; }
-    .msg-text { font-size: 14px; color: #4c4558; line-height: 1.5; word-break: break-word; }
-
-    .system-msg { text-align: center; font-size: 11px; color: #9b7ab0; padding: 4px 0; }
+    .msg-text { font-size: 14px; color: var(--text); line-height: 1.55; word-break: break-word; }
+    .system-msg { font-family: var(--mincho); text-align: center; font-size: 11px; color: var(--muted); padding: 4px 0; letter-spacing: 0.05em; }
 
     /* 入力欄 */
-    .chat-input-area { padding: 12px 16px; background: rgba(255,255,255,0.55); border-top: 1px solid rgba(255,255,255,0.6); }
-    .stamp-panel {
-      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;
-      padding: 6px; background: rgba(255,255,255,0.5); border-radius: 10px;
-    }
-    .stamp-btn {
-      width: 38px; height: 38px; object-fit: contain; cursor: pointer;
-      border-radius: 8px; padding: 2px; transition: transform 0.12s, background 0.12s;
-    }
-    .stamp-btn:hover { transform: scale(1.15); background: rgba(166,126,230,0.25); }
+    .chat-input-area { padding: 12px 14px; background: rgba(0,0,0,0.45); border-top: 1px solid var(--line); }
+    .stamp-panel { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; padding: 6px; background: rgba(61,23,69,0.35); border: 1px solid var(--line); border-radius: 10px; }
+    .stamp-btn { width: 36px; height: 36px; object-fit: contain; cursor: pointer; border-radius: 8px; padding: 2px; transition: transform 0.12s, background 0.12s; }
+    .stamp-btn:hover { transform: scale(1.15); background: rgba(255,138,31,0.25); }
     .stamp-img { max-width: 110px; border-radius: 8px; display: block; }
-    .name-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .name-input {
-      flex: 1; background: rgba(255,255,255,0.85); border: 1.5px solid #dcc5e8;
-      border-radius: 10px; padding: 8px 12px; color: #4c4558; font-size: 13px; outline: none;
+    .name-row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
+    .name-chip {
+      font-family: var(--mincho);
+      background: rgba(0,0,0,0.4); border: 1px solid var(--line); color: var(--muted);
+      font-size: 11px; padding: 6px 8px; border-radius: 12px; cursor: pointer; white-space: nowrap;
     }
-    .name-input:focus { border-color: #a67ee6; }
-    .name-input::placeholder { color: #c9a8d0; }
+    .name-chip.active { border-color: var(--pumpkin); color: var(--pumpkin); }
+    .name-input, .msg-input {
+      flex: 1; background: rgba(12,6,16,0.8); border: 1.5px solid var(--line);
+      border-radius: 10px; color: var(--text); outline: none; font-family: inherit;
+    }
+    .name-input { padding: 7px 10px; font-size: 13px; min-width: 0; }
+    .msg-input { padding: 10px 12px; font-size: 14px; resize: none; height: 42px; }
+    .name-input:focus, .msg-input:focus { border-color: var(--pumpkin); }
+    .name-input::placeholder, .msg-input::placeholder { color: #7d6888; }
     .msg-row { display: flex; gap: 8px; }
-    .msg-input {
-      flex: 1; background: rgba(255,255,255,0.85); border: 1.5px solid #dcc5e8;
-      border-radius: 10px; padding: 10px 14px; color: #4c4558; font-size: 14px;
-      outline: none; resize: none; height: 42px;
-    }
-    .msg-input:focus { border-color: #a67ee6; }
-    .msg-input::placeholder { color: #c9a8d0; }
     .send-btn {
-      background: linear-gradient(135deg, #e8b400, #b88a00); border: none; border-radius: 10px;
-      padding: 0 18px; color: white; font-size: 14px; font-weight: bold; cursor: pointer; transition: opacity 0.15s;
+      font-family: var(--mincho);
+      background: linear-gradient(135deg, var(--pumpkin), #c2560a); border: none; border-radius: 10px;
+      padding: 0 16px; color: #1b0b05; font-size: 14px; font-weight: 800; cursor: pointer;
     }
-    .send-btn:hover { opacity: 0.85; }
+    .send-btn:hover { filter: brightness(1.1); }
     .send-btn:active { transform: scale(0.97); }
-    .char-count { font-size: 10px; color: #a89ab0; text-align: right; margin-top: 4px; }
-    .char-count.warn { color: #ff7043; }
+    .warning-msg { display: none; font-size: 12px; color: var(--candle); background: rgba(110,15,45,0.6); border: 1px solid var(--blood); border-radius: 8px; padding: 6px 12px; margin-top: 8px; text-align: center; }
+    .char-count { font-size: 10px; color: var(--muted); text-align: right; margin-top: 4px; }
+    .char-count.warn { color: var(--pumpkin); }
 
     @media (max-width: 850px) {
       .main { flex-direction: column; height: auto; }
-      .left-panel { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.6); }
+      .left-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--line); overflow: visible; }
       .center-panel { height: 50vh; min-height: 280px; }
-      .right-panel { width: 100%; height: 50vh; border-left: none; border-top: 1px solid rgba(255,255,255,0.6); }
+      .right-panel { width: 100%; height: 70vh; border-left: none; border-top: 1px solid var(--line); }
+      .header h1 { font-size: 18px; }
     }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🔒 立花くん 監獄なう 🔒</h1>
-  <div class="subtitle">🚔 ただいまBANにより収監中 🚔</div>
+  <span class="bat">🦇</span><span class="bat">🦇</span><span class="bat">🦇</span>
+  <h1><span class="deco">✝</span> BAN監獄 〜ハロウィン収監中〜 <span class="deco">✝</span></h1>
+  <div class="subtitle">🎃 立花くん ＆ 八木ウタちゃん 服役中 🎃</div>
 </div>
 
 <div class="main">
-  <!-- 左パネル -->
-  <div class="left-panel">
-    <div class="ban-badge" id="ban-badge">🔴 BAN中</div>
-
-    <div class="avatar-wrap">
-      <img class="avatar-img" src="jail-pepe.png" alt="立花くん"
-        onerror="this.style.display='none';document.getElementById('avatar-fallback').style.display='flex'">
-      <div id="avatar-fallback" style="display:none;width:100px;height:100px;border-radius:50%;background:#e8dcf5;align-items:center;justify-content:center;font-size:40px;">🐸</div>
-    </div>
-
-    <div class="name">立花くん</div>
-    <div class="sub">一時的に沈黙中の配信者</div>
-
-    <div class="message-box">
-      <div class="message-main" id="main-msg">🔒 ただいま服役中… 🔒</div>
-      <div class="message-sub">囚人番号 No.0721<br>模範囚として出所の日を待つ…🕊️</div>
-    </div>
-
-    <div class="countdown-wrap">
-      <div class="countdown-label">
-        <span>BAN解除まで</span>
-        <span>残り <span id="days-left">?</span> 日</span>
-      </div>
-      <div class="bar-outer">
-        <div class="bar-inner" id="progress-bar" style="width:100%"></div>
-      </div>
-      <div id="timer" style="text-align:center;font-size:18px;font-weight:bold;color:#7b3fc4;margin-top:10px;font-variant-numeric:tabular-nums;">--:--:--</div>
-    </div>
-
-    <div class="days-row" id="days-row"></div>
-
-    <a class="twitch-btn" href="https://www.twitch.tv/kentoobeta" target="_blank">
-      <svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-      kentoobeta を見に行く
-    </a>
-
-    <div class="sparkles">
-      <span class="sp">✨</span>
-      <span class="sp">💜</span>
-      <span class="sp">✨</span>
-    </div>
-
-    <div style="display:flex;gap:10px;justify-content:center;align-items:flex-end;margin-top:16px;">
-      <img src="homer.gif" alt="homer" style="width:70px;animation:float 2.5s ease-in-out infinite;" onerror="this.style.display='none'">
-      <img src="dumbpepe.gif" alt="dumbpepe" style="width:70px;animation:float 3s ease-in-out infinite;" onerror="this.style.display='none'">
+  <!-- 左パネル：囚人カード（JSで生成） -->
+  <div class="left-panel panel-glass" id="left-panel">
+    <div id="cards" style="display:flex;flex-direction:column;gap:24px;padding-top:8px;"></div>
+    <div class="candles">🕯️🕯️🕯️</div>
+    <div class="friends">
+      <img src="homer.gif" alt="homer" onerror="this.style.display='none'">
+      <img src="pumpkin-pepe.gif" alt="pumpkin" onerror="this.style.display='none'">
+      <img src="dumbpepe.gif" alt="dumbpepe" onerror="this.style.display='none'">
     </div>
   </div>
 
-  <!-- 中央パネル：Twitch配信 -->
+  <!-- 中央パネル：配信 -->
   <div class="center-panel">
-    <div class="stream-header">
+    <div class="panel-title">
       <div class="chat-dot"></div>
-      kentoobeta の配信
+      <span id="stream-title">配信</span>
+      <div class="stream-tabs" id="stream-tabs"></div>
     </div>
     <div class="stream-wrap">
-      <iframe id="twitch-player"
-        src="https://player.twitch.tv/?channel=kentoobeta&parent=xpuipuix.github.io&muted=false"
-        allowfullscreen>
-      </iframe>
+      <iframe id="twitch-player" allowfullscreen></iframe>
     </div>
   </div>
 
   <!-- 右パネル：チャット -->
-  <div class="right-panel">
-    <div class="chat-header">
+  <div class="right-panel panel-glass">
+    <div class="panel-title">
       <div class="chat-dot"></div>
-      応援チャット
-      <img src="apu.gif" alt="apu" style="width:48px;height:48px;margin-left:8px;animation:float 2s ease-in-out infinite;" onerror="this.style.display='none'">
-      <button id="tts-btn" title="読み上げ" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:16px;opacity:0.4;padding:2px 6px;">🔇</button>
-      <button id="admin-btn" title="管理" style="background:none;border:none;cursor:pointer;font-size:14px;opacity:0.4;padding:2px 6px;">🔧</button>
+      避難所チャット
+      <img src="witch-pepe.gif" alt="witch" style="width:36px;height:36px;margin-left:2px;animation:float 2s ease-in-out infinite;" onerror="this.style.display='none'">
+      <button id="tts-btn" class="icon-btn" title="読み上げ" style="margin-left:auto;">🔇</button>
+      <input id="tts-vol" class="vol" type="range" min="0" max="100" step="5" value="40" title="読み上げの音量">
+      <button id="admin-btn" class="icon-btn" title="管理" style="font-size:14px;">🔧</button>
     </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="system-msg">チャットへようこそ！立花くんへの差し入れメッセージを送ろう🔒</div>
-    </div>
+    <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-area">
       <div class="stamp-panel" id="stamp-panel">
-        <img class="stamp-btn" src="sushipepe.gif" alt="寿司Pepe" data-stamp="sushipepe.gif" title="寿司Pepe">
-        <img class="stamp-btn" src="apu.gif" alt="apu" data-stamp="apu.gif" title="apu">
-        <img class="stamp-btn" src="dumbpepe.gif" alt="dumbPepe" data-stamp="dumbpepe.gif" title="dumbPepe">
-        <img class="stamp-btn" src="homer.gif" alt="homer" data-stamp="homer.gif" title="homer">
-        <img class="stamp-btn" src="lyco.jpg" alt="pepe" data-stamp="lyco.jpg" title="拳Pepe">
+        <img class="stamp-btn" src="pumpkin-pepe.gif" data-stamp="pumpkin-pepe.gif" alt="かぼちゃ" title="かぼちゃ">
+        <img class="stamp-btn" src="witch-pepe.gif" data-stamp="witch-pepe.gif" alt="魔女" title="魔女">
+        <img class="stamp-btn" src="sushipepe.gif" data-stamp="sushipepe.gif" alt="寿司Pepe" title="寿司Pepe">
+        <img class="stamp-btn" src="apu.gif" data-stamp="apu.gif" alt="apu" title="apu">
+        <img class="stamp-btn" src="dumbpepe.gif" data-stamp="dumbpepe.gif" alt="dumbPepe" title="dumbPepe">
+        <img class="stamp-btn" src="homer.gif" data-stamp="homer.gif" alt="homer" title="homer">
+        <img class="stamp-btn" src="lyco.jpg" data-stamp="lyco.jpg" alt="拳Pepe" title="拳Pepe">
       </div>
-      <div class="name-row">
+      <div class="name-row" id="name-row">
         <input class="name-input" id="name-input" type="text" placeholder="名前" maxlength="20" value="立花くん">
       </div>
       <div class="msg-row">
-        <textarea class="msg-input" id="msg-input" placeholder="🔒 本人専用（🔧で合言葉を入力）" maxlength="200"></textarea>
+        <textarea class="msg-input" id="msg-input" placeholder="🔒 囚人専用（🔧で合言葉）" maxlength="200"></textarea>
         <button class="send-btn" onclick="sendMessage()">送信</button>
       </div>
-      <div id="warning-msg" style="display:none;font-size:12px;color:#ff7043;background:#fff0e8;border:1px solid #ff7043;border-radius:8px;padding:6px 12px;margin-top:8px;text-align:center;"></div>
+      <div class="warning-msg" id="warning-msg"></div>
       <div class="char-count" id="char-count">0 / 200</div>
     </div>
   </div>
@@ -319,13 +378,172 @@
 
 <!-- Firebase -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, push, onValue, remove, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   // ===== 管理用の合言葉（好きな言葉に書き換えてOK）=====
-  const ADMIN_PASSWORD = "big-nyurin-police";
+  const ADMIN_PASSWORD = "bigbigkuri";
   let isAdmin = false;
 
+  // ===== 囚人リスト（ここを書き換えれば人を増やしたり日付を変えたりできる）=====
+  //   start / end : BAN開始・解除の日時（日本時間）
+  //   channel     : Twitchのチャンネル名（空なら配信タブとボタンを出さない）
+  //   indefinite  : true にすると「無期限」表示（日付なし）
+  //   cls         : チャットでの色分け用クラス
+  const PRISONERS = [
+    {
+      id: 'tachibana',
+      name: '立花くん',
+      sub: '一時的に沈黙中の配信者',
+      avatar: 'jail-pepe.png',
+      number: 'No.0721',
+      quote: '解除のめどは誰にもわからない…🕯️',
+      channel: 'kentoobeta',
+      indefinite: true,     // 無期限（start / end なし）
+      cls: ''
+    },
+    {
+      id: 'uta',
+      name: '八木ウタ',
+      sub: '新入りの魔女っ子囚人',
+      avatar: 'witch-pepe.gif',
+      number: 'No.1031',
+      quote: 'ほうきで脱獄は禁止です…🧹',
+      channel: '',          // ← ウタちゃんのTwitchチャンネル名を入れる
+      start: '2026-10-08T00:00:00+09:00',
+      end:   '2026-10-15T00:00:00+09:00',
+      cls: 'uta'
+    }
+  ];
+
+  const DAY_MS = 1000 * 60 * 60 * 24;
+  const TWITCH_SVG = '<svg class="twitch-icon" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>';
+  const WEB_SVG = '<svg viewBox="0 0 60 60" fill="none" stroke="#f1e3ee" stroke-width="0.8"><path d="M0 0L60 60M0 0L30 60M0 0L60 30M0 0L0 60M0 0L60 0"/><path d="M0 14Q8 10 14 0M0 26Q16 20 26 0M0 40Q24 30 40 0M0 54Q32 42 54 0"/></svg>';
+
+  function escHtml(s) {
+    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ----- カード生成 -----
+  const cardsEl = document.getElementById('cards');
+  PRISONERS.forEach(function(p) {
+    if (!p.indefinite) {
+      p.startDate = new Date(p.start);
+      p.endDate = new Date(p.end);
+      p.days = Math.round((p.endDate - p.startDate) / DAY_MS);
+    }
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML =
+      '<span class="web tl">' + WEB_SVG + '</span><span class="web tr">' + WEB_SVG + '</span>' +
+      '<div class="ban-badge" id="badge-' + p.id + '">BAN中</div>' +
+      '<div class="avatar-wrap"><img class="avatar-img" src="' + escHtml(p.avatar) + '" alt="' + escHtml(p.name) + '"></div>' +
+      '<div class="name">' + escHtml(p.name) + '</div>' +
+      '<div class="sub">' + escHtml(p.sub) + '</div>' +
+      '<div class="message-box">' +
+        '<div class="message-main" id="msg-' + p.id + '">🕸️ ただいま服役中… 🕸️</div>' +
+        '<div class="message-sub">囚人番号 ' + escHtml(p.number) + '<br>' + escHtml(p.quote) + '</div>' +
+      '</div>' +
+      (p.indefinite
+        ? '<div class="countdown-wrap">' +
+            '<div class="countdown-label"><span>BAN解除まで</span><span>めど立たず</span></div>' +
+            '<div class="bar-outer"><div class="bar-inner" style="width:100%"></div></div>' +
+            '<div class="timer">∞ 無期限</div>' +
+          '</div>'
+        : '<div class="countdown-wrap">' +
+            '<div class="countdown-label"><span>BAN解除まで</span><span>残り <span id="left-' + p.id + '">?</span> 日</span></div>' +
+            '<div class="bar-outer"><div class="bar-inner" id="bar-' + p.id + '" style="width:100%"></div></div>' +
+            '<div class="timer" id="timer-' + p.id + '">--:--:--</div>' +
+          '</div>' +
+          '<div class="days-row" id="days-' + p.id + '"></div>') +
+      (p.channel
+        ? '<a class="twitch-btn" href="https://www.twitch.tv/' + encodeURIComponent(p.channel) + '" target="_blank" rel="noopener">' + TWITCH_SVG + escHtml(p.channel) + ' を見に行く</a>'
+        : '');
+    cardsEl.appendChild(el);
+  });
+
+  function updateCountdown() {
+    const now = new Date();
+    PRISONERS.forEach(function(p) {
+      if (p.indefinite) {
+        document.getElementById('badge-' + p.id).textContent = '🩸 無期限BAN — 半年以上収監中';
+        return;
+      }
+      const remainMs = p.endDate - now;
+      const elapsedDays = Math.floor((now - p.startDate) / DAY_MS);
+      const badge = document.getElementById('badge-' + p.id);
+      const timerEl = document.getElementById('timer-' + p.id);
+
+      if (now < p.startDate) {
+        badge.textContent = '⏳ 収監予定';
+        badge.className = 'ban-badge soon';
+      } else if (remainMs <= 0) {
+        badge.textContent = '🗝️ BAN期間おわり';
+        badge.className = 'ban-badge free';
+        document.getElementById('left-' + p.id).textContent = '0';
+        document.getElementById('bar-' + p.id).style.width = '0%';
+        timerEl.textContent = '0日 00:00:00';
+      } else {
+        const d = Math.floor(remainMs / DAY_MS);
+        const h = Math.floor((remainMs % DAY_MS) / 3600000);
+        const m = Math.floor((remainMs % 3600000) / 60000);
+        const s = Math.floor((remainMs % 60000) / 1000);
+        document.getElementById('left-' + p.id).textContent = d;
+        timerEl.textContent = d + '日 ' + String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+        const pct = Math.max(0, Math.min(100, (remainMs / (p.endDate - p.startDate)) * 100));
+        document.getElementById('bar-' + p.id).style.width = pct + '%';
+        badge.textContent = '🩸 BAN中 — ' + (elapsedDays + 1) + '日目 / ' + p.days + '日間';
+        badge.className = 'ban-badge';
+      }
+
+      const row = document.getElementById('days-' + p.id);
+      let html = '';
+      for (let i = 0; i < p.days; i++) {
+        const cls = i < elapsedDays ? ' done' : (i === elapsedDays ? ' today' : '');
+        const icon = i < elapsedDays ? '🦇' : (i === elapsedDays ? '🎃' : (i + 1));
+        html += '<div class="day-chip' + cls + '"><span class="day-num">' + icon + '</span>' + (i + 1) + '日目</div>';
+      }
+      row.innerHTML = html;
+    });
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ----- 配信の切り替え -----
+  const streamers = PRISONERS.filter(function(p) { return p.channel; });
+  const playerEl = document.getElementById('twitch-player');
+  const tabsEl = document.getElementById('stream-tabs');
+  function showStream(p) {
+    playerEl.src = 'https://player.twitch.tv/?channel=' + encodeURIComponent(p.channel) + '&parent=xpuipuix.github.io&muted=false';
+    document.getElementById('stream-title').textContent = p.channel + ' の配信';
+    Array.prototype.forEach.call(tabsEl.children, function(b) { b.classList.toggle('active', b.dataset.id === p.id); });
+  }
+  if (streamers.length > 1) {
+    streamers.forEach(function(p) {
+      const b = document.createElement('button');
+      b.className = 'stream-tab'; b.dataset.id = p.id; b.textContent = p.name;
+      b.addEventListener('click', function() { showStream(p); });
+      tabsEl.appendChild(b);
+    });
+  }
+  if (streamers.length) showStream(streamers[0]);
+
+  // ----- 名前チップ（どっちの名前で書くか選ぶ）-----
+  const nameInputEl = document.getElementById('name-input');
+  const nameRowEl = document.getElementById('name-row');
+  PRISONERS.forEach(function(p) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'name-chip'; b.textContent = p.name;
+    b.addEventListener('click', function() { nameInputEl.value = p.name; syncChips(); });
+    nameRowEl.insertBefore(b, nameInputEl);
+  });
+  function syncChips() {
+    Array.prototype.forEach.call(nameRowEl.querySelectorAll('.name-chip'), function(b) {
+      b.classList.toggle('active', b.textContent === nameInputEl.value.trim());
+    });
+  }
+  nameInputEl.addEventListener('input', syncChips);
+  syncChips();
+
+  // ===== チャット =====
   const firebaseConfig = {
     apiKey: "AIzaSyAthmOYWn6WZdH2NS76e0seNIiAp1PbDq4",
     authDomain: "ban-sareta-family.firebaseapp.com",
@@ -335,93 +553,50 @@
     messagingSenderId: "615118145572",
     appId: "1:615118145572:web:5e5d016b7289835da5b0b1"
   };
+  // Firebaseが読めなくてもカードや配信は表示されるよう、後から読み込む
+  let ref, push, onValue, remove, child, messagesRef;
+  try {
+    const fbApp = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+    const fbDb = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js");
+    ({ ref, push, onValue, remove, child } = fbDb);
+    const db = fbDb.getDatabase(fbApp.initializeApp(firebaseConfig));
+    messagesRef = ref(db, 'messages_lyco');
+  } catch (e) { console.error('[chat] Firebase読み込み失敗', e); }
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const messagesRef = ref(db, 'messages_lyco');
-
-  // ===== BANカウントダウン =====
-  // BAN開始：2026年7月18日（今日が1日目）
-  const BAN_START = new Date('2026-07-18T00:00:00+09:00');
-  const BAN_END = new Date('2026-07-25T00:00:00+09:00');  // 7日後
-  const BAN_DAYS = 7;
-  const TOTAL_MS = BAN_END - BAN_START;
-
-  function updateCountdown() {
-    const now = new Date();
-    const remainMs = BAN_END - now;
-    const elapsedMs = now - BAN_START;
-    const elapsedDays = Math.floor(elapsedMs / (1000 * 60 * 60 * 24));
-    const dayNum = elapsedDays + 1;
-
-    const badge = document.getElementById('ban-badge');
-    const timerEl = document.getElementById('timer');
-
-    if (remainMs <= 0) {
-      badge.textContent = '🟢 出所した…';
-      badge.style.background = 'linear-gradient(135deg, #7ed957, #5cb85c)';
-      document.getElementById('main-msg').textContent = '🕊️ 出所しました！シャバの空気うまい！';
-      document.getElementById('days-left').textContent = '0';
-      document.getElementById('progress-bar').style.width = '0%';
-      timerEl.textContent = '🕯️ 娑婆に戻ってきた…';
-    } else {
-      const d = Math.floor(remainMs / (1000 * 60 * 60 * 24));
-      const h = Math.floor((remainMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((remainMs % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((remainMs % (1000 * 60)) / 1000);
-      document.getElementById('days-left').textContent = d;
-      timerEl.textContent = `${d}日 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-      const pct = Math.max(0, Math.min(100, (remainMs / TOTAL_MS) * 100));
-      document.getElementById('progress-bar').style.width = pct + '%';
-      badge.textContent = `🔴 BAN中 — ${dayNum}日目 / ${BAN_DAYS}日間`;
-    }
-
-    const row = document.getElementById('days-row');
-    row.innerHTML = '';
-    for (let i = 0; i < BAN_DAYS; i++) {
-      const chip = document.createElement('div');
-      chip.className = 'day-chip' + (i < elapsedDays ? ' done' : i === elapsedDays ? ' today' : '');
-      chip.innerHTML = `<span class="day-num">${i < elapsedDays ? '✓' : i === elapsedDays ? '📺' : (i + 1)}</span>${i + 1}日目`;
-      row.appendChild(chip);
-    }
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  // ===== チャット =====
-  function escHtml(s) {
-    return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const WELCOME = '<div class="system-msg">✝ 避難所へようこそ。立花くんとウタちゃんの差し入れメッセージはこちら ✝</div>';
+  function prisonerByName(n) {
+    for (let i = 0; i < PRISONERS.length; i++) if (PRISONERS[i].name === n) return PRISONERS[i];
+    return null;
   }
 
   var latestMsgs = [];
-
   function renderChat() {
     var container = document.getElementById('chat-messages');
-    container.innerHTML = '<div class="system-msg">チャットへようこそ！立花くんへの差し入れメッセージを送ろう🔒</div>';
+    container.innerHTML = WELCOME;
     var shown = latestMsgs.slice(-100);
     for (var i = 0; i < shown.length; i++) {
       try {
         var m = shown[i];
         var nameStr = (m.name == null || m.name === '') ? '名無し' : String(m.name);
         var textStr = (m.text == null) ? '' : String(m.text);
-        var initial = nameStr.charAt(0).toUpperCase() || '?';
+        var who = prisonerByName(nameStr);
+        var avatarHtml = who
+          ? '<img src="' + escHtml(who.avatar) + '" alt="">'
+          : escHtml(nameStr.charAt(0).toUpperCase() || '?');
         var time = '';
         if (m.timestamp) {
           var d = new Date(Number(m.timestamp));
-          if (!isNaN(d.getTime())) {
-            time = d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
-          }
+          if (!isNaN(d.getTime())) time = d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
         }
         var el = document.createElement('div');
-        el.className = 'msg';
+        el.className = 'msg' + (who && who.cls ? ' ' + who.cls : '');
         var delBtn = isAdmin ? '<button class="del-btn" data-key="' + escHtml(m.key) + '" title="削除">🗑️</button>' : '';
         el.innerHTML =
-          '<div class="msg-avatar">' + escHtml(initial) + '</div>' +
+          '<div class="msg-avatar">' + avatarHtml + '</div>' +
           '<div class="msg-content">' +
             '<div class="msg-header">' +
               '<span class="msg-name">' + escHtml(nameStr) + '</span>' +
-              '<span class="msg-time">' + time + '</span>' +
-              delBtn +
+              '<span class="msg-time">' + time + '</span>' + delBtn +
             '</div>' +
             '<div class="msg-text">' + (m.stamp ? '<img class="stamp-img" src="' + escHtml(m.stamp) + '" alt="stamp">' : escHtml(textStr)) + '</div>' +
           '</div>';
@@ -441,12 +616,13 @@
     }
     container.scrollTop = container.scrollHeight;
   }
+  renderChat();
 
-  onValue(messagesRef, function(snapshot) {
+  if (messagesRef) onValue(messagesRef, function(snapshot) {
     latestMsgs = [];
-    snapshot.forEach(function(child) {
-      var v = child.val() || {};
-      latestMsgs.push({ key: child.key, name: v.name, text: v.text, timestamp: v.timestamp, stamp: v.stamp });
+    snapshot.forEach(function(c) {
+      var v = c.val() || {};
+      latestMsgs.push({ key: c.key, name: v.name, text: v.text, timestamp: v.timestamp, stamp: v.stamp });
     });
     renderChat();
     if (window.__speakNew) window.__speakNew(latestMsgs);
@@ -466,10 +642,12 @@
     clearTimeout(el._timer);
     el._timer = setTimeout(() => { el.style.display = 'none'; }, 3000);
   }
+  const NOT_ADMIN = 'コメントは囚人（本人）だけ。🔧から合言葉を入れてね';
 
   window.sendMessage = function() {
-    if (!isAdmin) { showWarning('コメントは看守（本人）だけ。🔧から合言葉を入れてね'); return; }
-    const name = document.getElementById('name-input').value.trim() || '立花くん';
+    if (!isAdmin) { showWarning(NOT_ADMIN); return; }
+    if (!messagesRef) { showWarning('チャットに接続できていないみたい…'); return; }
+    const name = nameInputEl.value.trim() || PRISONERS[0].name;
     const text = document.getElementById('msg-input').value.trim();
     if (!text) return;
     if (text.length > MAX_LENGTH) { showWarning(`メッセージは${MAX_LENGTH}文字までだよ`); return; }
@@ -479,7 +657,7 @@
     }
     if (text === lastSentText) { showWarning('同じメッセージは送れないよ'); return; }
     const lower = text.toLowerCase();
-    if (NG_WORDS.find(w => lower.includes(w.toLowerCase()))) { showWarning('その言葉は使えないよ。やさしい言葉でね💜'); return; }
+    if (NG_WORDS.find(w => lower.includes(w.toLowerCase()))) { showWarning('その言葉は使えないよ。やさしい言葉でね🦇'); return; }
     push(messagesRef, { name, text, timestamp: Date.now() });
     lastSentTime = now;
     lastSentText = text;
@@ -488,103 +666,99 @@
   };
 
   var msgInputEl = document.getElementById('msg-input');
-  if (msgInputEl) {
-    msgInputEl.addEventListener('input', function() {
-      const len = this.value.length;
-      const el = document.getElementById('char-count');
-      if (el) { el.textContent = `${len} / 200`; el.className = 'char-count' + (len > 180 ? ' warn' : ''); }
-    });
-    msgInputEl.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.sendMessage(); }
-    });
-  }
+  msgInputEl.addEventListener('input', function() {
+    const len = this.value.length;
+    const el = document.getElementById('char-count');
+    el.textContent = `${len} / 200`; el.className = 'char-count' + (len > 180 ? ' warn' : '');
+  });
+  msgInputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); window.sendMessage(); }
+  });
 
-  var adminBtnEl = document.getElementById('admin-btn');
-  if (adminBtnEl) {
-    adminBtnEl.addEventListener('click', function() {
-      if (isAdmin) {
-        isAdmin = false; this.style.opacity = '0.4'; renderChat(); alert('管理モードを終了しました');
-      } else {
-        var pw = prompt('合言葉を入力してください');
-        if (pw === null) return;
-        if (pw === ADMIN_PASSWORD) {
-          isAdmin = true; this.style.opacity = '1'; renderChat();
-          alert('管理モードON！各メッセージに🗑️が出ます。もう一度🔧で終了。');
-        } else { alert('合言葉が違います'); }
-      }
-    });
-  }
+  document.getElementById('admin-btn').addEventListener('click', function() {
+    if (isAdmin) {
+      isAdmin = false; this.style.opacity = '0.45'; renderChat(); alert('管理モードを終了しました');
+    } else {
+      var pw = prompt('合言葉を入力してください');
+      if (pw === null) return;
+      if (pw === ADMIN_PASSWORD) {
+        isAdmin = true; this.style.opacity = '1'; renderChat();
+        alert('管理モードON！名前ボタンで「立花くん」「八木ウタ」を切り替えて書き込めます。各メッセージに🗑️も出ます。もう一度🔧で終了。');
+      } else { alert('合言葉が違います'); }
+    }
+  });
 
   // ===== スタンプ送信 =====
   var stampBtns = document.querySelectorAll('.stamp-btn');
   for (var k = 0; k < stampBtns.length; k++) {
     stampBtns[k].addEventListener('click', function() {
-      if (!isAdmin) { showWarning('コメントは看守（本人）だけ。🔧から合言葉を入れてね'); return; }
+      if (!isAdmin) { showWarning(NOT_ADMIN); return; }
+      if (!messagesRef) { showWarning('チャットに接続できていないみたい…'); return; }
       var now = Date.now();
       if (now - lastSentTime < COOLDOWN_MS) {
         showWarning('連投はダメ！あと' + Math.ceil((COOLDOWN_MS - (now - lastSentTime)) / 1000) + '秒待ってね');
         return;
       }
-      var nameEl = document.getElementById('name-input');
-      var name = (nameEl && nameEl.value.trim()) || '立花くん';
-      var stampFile = this.getAttribute('data-stamp');
-      push(messagesRef, { name: name, text: '[スタンプ]', stamp: stampFile, timestamp: Date.now() });
+      var name = nameInputEl.value.trim() || PRISONERS[0].name;
+      push(messagesRef, { name: name, text: '[スタンプ]', stamp: this.getAttribute('data-stamp'), timestamp: Date.now() });
       lastSentTime = now;
     });
   }
 
   // ===== 読み上げ機能 =====
   var ttsOn = false;
-  var spokenKeys = {};      // 既に読んだメッセージ
-  var ttsReady = false;     // 初回読み込み後から読み始める
-
+  var volEl = document.getElementById('tts-vol');
+  try { var savedVol = localStorage.getItem('ttsVolume'); if (savedVol !== null) volEl.value = savedVol; } catch (e) {}
+  function ttsVolume() { return Number(volEl.value) / 100; }
+  volEl.title = '読み上げの音量 ' + volEl.value + '%';
+  volEl.addEventListener('input', function() {
+    this.title = '読み上げの音量 ' + this.value + '%';
+    try { localStorage.setItem('ttsVolume', this.value); } catch (e) {}
+  });
+  volEl.addEventListener('change', function() {
+    if (!ttsOn) return;
+    window.speechSynthesis.cancel();
+    var t = new SpeechSynthesisUtterance('この音量です');
+    t.lang = 'ja-JP'; t.volume = ttsVolume();
+    window.speechSynthesis.speak(t);
+  });
+  var spokenKeys = {};
+  var ttsReady = false;
   window.__speakNew = function(msgs) {
-    if (!ttsReady) {
-      // 初回はぜんぶ既読にして読まない
+    if (!ttsReady || !ttsOn) {
       for (var i = 0; i < msgs.length; i++) spokenKeys[msgs[i].key] = true;
       ttsReady = true;
-      return;
-    }
-    if (!ttsOn) {
-      for (var j = 0; j < msgs.length; j++) spokenKeys[msgs[j].key] = true;
       return;
     }
     for (var k = 0; k < msgs.length; k++) {
       var m = msgs[k];
       if (spokenKeys[m.key]) continue;
       spokenKeys[m.key] = true;
-      if (m.stamp) continue;  // スタンプは読まない
+      if (m.stamp) continue;
       var nameStr = (m.name == null || m.name === '') ? '名無し' : String(m.name);
       var textStr = (m.text == null) ? '' : String(m.text);
       if (!textStr) continue;
       try {
         var u = new SpeechSynthesisUtterance(nameStr + '、' + textStr);
-        u.lang = 'ja-JP';
-        u.rate = 1.0;
+        u.lang = 'ja-JP'; u.rate = 1.0; u.volume = ttsVolume();
         window.speechSynthesis.speak(u);
       } catch (e) { console.warn('読み上げ失敗', e); }
     }
   };
-
-  var ttsBtnEl = document.getElementById('tts-btn');
-  if (ttsBtnEl) {
-    ttsBtnEl.addEventListener('click', function() {
-      if (!('speechSynthesis' in window)) {
-        alert('このブラウザは読み上げに対応していません');
-        return;
-      }
-      ttsOn = !ttsOn;
-      this.textContent = ttsOn ? '🔊' : '🔇';
-      this.style.opacity = ttsOn ? '1' : '0.4';
-      if (ttsOn) {
-        var u = new SpeechSynthesisUtterance('読み上げをオンにしました');
-        u.lang = 'ja-JP';
-        window.speechSynthesis.speak(u);
-      } else {
-        window.speechSynthesis.cancel();
-      }
-    });
-  }
+  document.getElementById('tts-btn').addEventListener('click', function() {
+    if (!('speechSynthesis' in window)) { alert('このブラウザは読み上げに対応していません'); return; }
+    ttsOn = !ttsOn;
+    this.textContent = ttsOn ? '🔊' : '🔇';
+    this.style.opacity = ttsOn ? '1' : '0.45';
+    volEl.classList.toggle('on', ttsOn);
+    if (ttsOn) {
+      var u = new SpeechSynthesisUtterance('読み上げをオンにしました');
+      u.lang = 'ja-JP'; u.volume = ttsVolume();
+      window.speechSynthesis.speak(u);
+    } else {
+      window.speechSynthesis.cancel();
+    }
+  });
 </script>
 
 </body>
